@@ -7,10 +7,10 @@
 #### 创建工程
 
 ``` js
-eve create[模板名][工程名]
+eve create[模板名][自定义工程名]
 ```
 
-> tips : 内置的模板有 `simple` , 创建工程可用 `eve create simple 自定义的工程名`
+> tips : 当前内置的模板有 `simple` , 创建工程可用 `eve create simple 自定义工程名` , 模板名不可随意填写，只能填写自己添加的或者内置的模板名，工程名可自定义。
 
 #### 添加模板
 
