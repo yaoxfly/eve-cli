@@ -2,6 +2,7 @@
   "name": "@eve/cli",
   "version": "0.0.3",
   "description": "@eve/cli",
+  "author":"yaoxfly",
   "private": false,
   "license": "MIT",
   "main": "bin",
@@ -17,7 +18,6 @@
     "eve-create": "./bin/eve-create.js"
   },
   "keywords": [],
-  "author": "yaoxfly",
   "dependencies": {
     "chalk": "*",
     "commander": "*",
