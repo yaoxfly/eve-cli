@@ -1,8 +1,8 @@
 {
   "name": "@eve/cli",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "description": "@eve/cli",
-  "author":"yaoxfly",
+  "author": "yaoxfly",
   "private": false,
   "license": "MIT",
   "main": "bin",
