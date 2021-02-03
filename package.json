@@ -23,6 +23,7 @@
     "commander": "*",
     "download-git-repo": "*",
     "inquirer": "*",
+    "inquirer-select-line": "*",
     "ora": "*",
     "handlebars": "*"
   }

@@ -6,8 +6,8 @@ const ora = require('ora')
 const download = require('download-git-repo')
 const tplObj = require(`${__dirname}/../template`)
 const symbols = require('log-symbols');
-const handlebars = require('handlebars')
 const inquirer = require('inquirer');
+inquirer.registerPrompt('selectLine', require('inquirer-select-line'));
 program
     .usage('<project-name>  or <template-name>')
 program.parse(process.argv)
@@ -16,14 +16,25 @@ if (program.args.length < 1) return program.help()
 let templateName = program.args[0]
 //有模板就用自定义的模板,没有就用默认的模板
 let url = tplObj[templateName] ? tplObj[templateName] : tplObj['eve-admin']
-
+//获取package.json
+function getPackageJson (filePath) {
+    const _packageJson = fs.readFileSync(filePath)
+    return JSON.parse(_packageJson)
+}
 const param = [
     {
         type: 'input',
         name: 'description',
         message: '请输入项目描述'
+    },
+    {
+        type: 'list',
+        message: '使用sass还是less?',
+        name: 'css',
+        choices: ['sass', 'less'],
     }
 ]
+
 tplObj[templateName] && param.unshift({
     type: 'input',
     name: 'name',
@@ -31,7 +42,9 @@ tplObj[templateName] && param.unshift({
 })
 
 inquirer.prompt(param).then((answers) => {
-    let { name = templateName, description } = answers || {}
+    let { name = templateName, description, css } = answers || {}
+    console.log('line', css)
+
     if (fs.existsSync(name)) {
         console.log(chalk.red("项目已存在"))
         return
@@ -50,20 +63,34 @@ inquirer.prompt(param).then((answers) => {
                 console.log(chalk.red(`Generation failed. ${err}`))
                 return
             }
+            //需要修改的key值
             const meta = {
                 description: description,
                 name: name
             }
-            const fileName = `${name}/package.json`;
-            const content = fs.readFileSync(fileName).toString();
-            const result = handlebars.compile(content)(meta);
-            fs.writeFileSync(fileName, result);
+            const filePath = `${name}/package.json`;
+            const packageJsonData = getPackageJson(filePath)
+            Object.assign(packageJsonData, meta)
+            const keyMap = {
+                'less': () => {
+                    packageJsonData.devDependencies.less = '^3.13.1'
+                    packageJsonData.devDependencies["less-loader"] = '^5.0.0'
+                },
+                'sass': () => {
+                    packageJsonData.devDependencies['node-sass'] = '^4.14.1'
+                    packageJsonData.devDependencies["sass-loader"] = '^8.0.2'
+                }
+            }
+            keyMap[css]()
+            // 2代表格式化数据的时候前面填充2个空格
+            fs.writeFileSync(filePath, JSON.stringify(packageJsonData, null, 2))
             // 结束加载图标
             spinner.succeed();
             console.log(symbols.success, chalk.green('项目初始化完成'));
             console.log('\n To get started')
             console.log(`\n cd ${name}`)
-            console.log(`\n npm run serve \n`)
+            console.log(`\n npm i `)
+            console.log(`\n npm run serve`)
         }
     )
 })
