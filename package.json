@@ -25,6 +25,8 @@
     "inquirer": "*",
     "inquirer-select-line": "*",
     "ora": "*",
-    "handlebars": "*"
+    "handlebars": "*",
+    "child_process": "*",
+    "shelljs": "*"
   }
 }

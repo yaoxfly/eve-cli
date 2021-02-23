@@ -1,13 +1,15 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const program = require('commander')
-const chalk = require('chalk')
-const ora = require('ora')
-const download = require('download-git-repo')
+const fs = require('fs') //文件读取模块
+const path = require('path')//文件路径
+const program = require('commander') //指令模块
+const chalk = require('chalk')  //颜色模块
+const ora = require('ora') //动画加载模块
+const download = require('download-git-repo') //从git下载模板
 const tplObj = require(`${__dirname}/../template`)
-const symbols = require('log-symbols');
-const inquirer = require('inquirer');
+const symbols = require('log-symbols');//终端图标
+const inquirer = require('inquirer'); //用户输入选择交互模块
 inquirer.registerPrompt('selectLine', require('inquirer-select-line'));
+const child_process = require('child_process'); //调用子进程并执行终端命令
 program
     .usage('<project-name>  or <template-name>')
 program.parse(process.argv)
@@ -86,12 +88,20 @@ inquirer.prompt(param).then((answers) => {
             fs.writeFileSync(filePath, JSON.stringify(packageJsonData, null, 2))
             // 结束加载图标
             spinner.succeed();
-            console.log(symbols.success, chalk.green('项目初始化完成'));
+            console.log(symbols.success, chalk.green('项目初始化完毕'));
             console.log('\n To get started')
             console.log(`\n cd ${name}`)
             console.log(`\n npm i `)
             console.log(`\n npm run serve`)
+            //TODO:可自动执行npm i,但无法显示进度,先排除当前功能
+            // const cmd = 'npm  i';
+            // child_process.exec(cmd, { cwd: path.join(process.cwd(), name) }, (error, stdout, stderr) => {
+            //     console.log(`\n npm run serve`)
+            //     if (error !== null) {
+            //         console.log('exec error: ' + error);
+            //     }
+            //     console.log(stdout);
+            // });
         }
     )
 })
-
