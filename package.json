@@ -22,11 +22,14 @@
     "chalk": "*",
     "child_process": "*",
     "commander": "*",
+    "download": "^7.1.0",
     "download-git-repo": "*",
+    "git-clone": "^0.1.0",
     "handlebars": "*",
     "inquirer": "*",
     "inquirer-select-line": "*",
     "ora": "*",
+    "rimraf": "^3.0.0",
     "shelljs": "*"
   }
 }
