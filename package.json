@@ -20,13 +20,13 @@
   "keywords": [],
   "dependencies": {
     "chalk": "*",
+    "child_process": "*",
     "commander": "*",
     "download-git-repo": "*",
+    "handlebars": "*",
     "inquirer": "*",
     "inquirer-select-line": "*",
     "ora": "*",
-    "handlebars": "*",
-    "child_process": "*",
     "shelljs": "*"
   }
 }
